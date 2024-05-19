@@ -5,25 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e0e1dd; /* Lightest color as background */
+            color: #0d1b2a; /* Darkest color for text */
+            font-family: Arial, sans-serif; /* Modern font */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background-color: #ffffff; /* White background for card */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .card h2 {
+            font-size: 24px; /* Larger heading */
+            margin-bottom: 20px; /* Spacing below heading */
+            color: #415a77; /* Medium blue for heading */
+        }
+        .form-control {
+            background-color: #f8f9fa; /* Light gray for form input background */
+            border-color: #ced4da; /* Border color for form input */
+            color: #495057; /* Dark gray for text in form input */
+        }
+        .btn-primary {
+            background-color: #778da9; /* Light blue for button */
+            border: none;
+            border-radius: 4px;
+            color: #ffffff; /* White for button text */
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #415a77; /* Darker blue on hover */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <h2 class="text-center">Admin Login</h2>
-                <form method="POST">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                </form>
+    <div class="card">
+        <h2>Admin Login</h2>
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username">
             </div>
-        </div>
+            <div class="form-group">
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
     </div>
 </body>
 </html>

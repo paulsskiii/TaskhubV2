@@ -171,6 +171,33 @@ def index():
     tasks = Task.query.filter_by(assignee_id=current_user.id).all()
     return render_template('index.html', tasks=tasks)
 
+@app.route('/update_task_progress/<int:task_id>', methods=['POST'])
+@login_required
+def update_task_progress(task_id):
+    task = Task.query.get(task_id)
+    if task and task.assignee_id == current_user.id:
+        new_progress = request.form['progress']
+        try:
+            new_progress = int(new_progress)
+            if 0 <= new_progress <= 100:
+                task.progress = new_progress
+                # Dynamically update the status based on progress
+                if new_progress == 100:
+                    task.status = 'Done'
+                else:
+                    task.status = f'Working ({new_progress}%)'
+                db.session.commit()
+                flash('Task progress updated successfully!', 'success')
+            else:
+                flash('Progress must be between 0 and 100.', 'error')
+        except ValueError:
+            flash('Progress must be an integer.', 'error')
+    else:
+        flash('Task not found or you are not the assignee.', 'error')
+    return redirect(url_for('index'))
+
+
+
 @app.route('/mark_task_done/<int:task_id>', methods=['POST'])
 @login_required
 def mark_task_done(task_id):

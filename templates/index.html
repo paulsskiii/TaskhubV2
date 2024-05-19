@@ -3,14 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
+    <title>Staff Task Manager</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d1b2a; /* Dark background color */
+            color: #e0e1dd; /* Light text color */
+            font-family: Arial, sans-serif; /* Modern font */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 40px;
+        }
+        .table {
+            background-color: #1b263b; /* Darker background color for tables */
+            color: #e0e1dd; /* Light text color for tables */
+        }
+        .table th, .table td {
+            border-color: #415a77; /* Medium blue for table borders */
+        }
+        .table th {
+            background-color: #415a77; /* Medium blue for table header */
+        }
+        .table th, .table td {
+            padding: 8px;
+            vertical-align: middle;
+        }
+        .table th {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #778da9; /* Light blue for primary button */
+            border: none;
+            border-radius: 4px;
+            color: #ffffff; /* White for button text */
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #415a77; /* Darker blue on hover */
+        }
+        .form-control {
+            background-color: #415a77; /* Darker blue for form input background */
+            border-color: #415a77; /* Darker blue for form input border */
+            color: #e0e1dd; /* Light text color for form input */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-md-10">
-                <h2 class="text-center mb-4">Task Manager</h2>
+                <h2 class="text-center mb-4">Staff Task Manager</h2>
                 <table class="table">
                     <thead>
                         <tr>
@@ -19,8 +65,8 @@
                             <th>Deadline</th>
                             <th>Priority</th>
                             <th>Status</th>
+                            <th>Progress %</th>
                             <th>Assignee</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,14 +77,17 @@
                             <td>{{ task.deadline }}</td>
                             <td>{{ task.priority }}</td>
                             <td>{{ task.status }}</td>
-                            <td>{{ task.assignee.username }}</td>
                             <td>
-                                {% if current_user.role == 'admin' %}
-                                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                <form action="{{ url_for('update_task_progress', task_id=task.id) }}" method="POST">
+                                    <div class="input-group">
+                                        <input type="number" name="progress" class="form-control" value="{{ task.progress }}" min="0" max="100" required>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
                                 </form>
-                                {% endif %}
                             </td>
+                            <td>{{ task.assignee.username }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
