@@ -17,6 +17,19 @@
             align-items: center;
             height: 100vh;
         }
+        .alert-success {
+        background-color: #28a745; /* Green background */
+        border-color: #28a745; /* Green border */
+        color: #ffffff; /* White text */
+        margin: 10px;
+        }
+
+        .alert-danger {
+        background-color: #cd5b5b; /* Red background */
+        border-color: #cd5b5b; /* Red border */
+        color: #ffffff; /* White text */
+        margin: 10px;
+        }
         .card {
             background-color: #ffffff; /* White background for card */
             border-radius: 8px; /* Rounded corners */
@@ -75,6 +88,16 @@
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>
+                        <!-- Add flash messages here -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} flash-message">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
                         <div class="text-center mt-3">
                             <p>Dont have a account?  <a href="{{ url_for('staff_register') }}">Create Staff Account</a></p>
                         </div>
@@ -83,5 +106,15 @@
             </div>
         </div>
     </div>
+    <script>
+        let flashMessages = document.querySelectorAll(".flash-message");
+        let delay = 5000;  // 5 seconds
+
+        flashMessages.forEach((message, index) => {
+            setTimeout(() => {
+                message.style.display = "none";
+            }, delay * (index + 1));
+        });
+    </script>
 </body>
 </html>

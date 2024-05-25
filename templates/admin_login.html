@@ -17,6 +17,13 @@
             align-items: center;
             height: 100vh;
         }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
         .card {
             background-color: #ffffff; /* White background for card */
             border-radius: 8px; /* Rounded corners */
@@ -48,10 +55,24 @@
         .btn-primary:hover {
             background-color: #415a77; /* Darker blue on hover */
         }
+        .alert-success {
+        background-color: #28a745; /* Green background */
+        border-color: #28a745; /* Green border */
+        color: #ffffff; /* White text */
+        margin: 20px;
+    }
+
+    .alert-danger {
+        background-color: #cd5b5b; /* Red background */
+        border-color: #cd5b5b; /* Red border */
+        color: #ffffff; /* White text */
+        margin: 20px;
+    }
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="container">
+        <div class="card">
         <h2>Admin Login</h2>
         <form method="POST">
             <div class="form-group">
@@ -63,5 +84,24 @@
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
     </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} flash-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
+        <script>
+            let flashMessages = document.querySelectorAll(".flash-message");
+            let delay = 5000;  // 5 seconds
+            flashMessages.forEach((message, index) => {
+            setTimeout(() => {
+            message.style.display = "none";
+            }, delay * (index + 1));
+            });
+        </script>
 </body>
 </html>

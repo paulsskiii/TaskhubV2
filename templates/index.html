@@ -50,50 +50,75 @@
             border-color: #415a77; /* Darker blue for form input border */
             color: #e0e1dd; /* Light text color for form input */
         }
+        .alert-success {
+        background-color: #28a745; /* Green background */
+        border-color: #28a745; /* Green border */
+        color: #ffffff; /* White text */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-10">
-                <h2 class="text-center mb-4">Staff Task Manager</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Deadline</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Progress %</th>
-                            <th>Assignee</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in tasks %}
-                        <tr>
-                            <td>{{ task.title }}</td>
-                            <td>{{ task.description }}</td>
-                            <td>{{ task.deadline }}</td>
-                            <td>{{ task.priority }}</td>
-                            <td>{{ task.status }}</td>
-                            <td>
-                                <form action="{{ url_for('update_task_progress', task_id=task.id) }}" method="POST">
-                                    <div class="input-group">
-                                        <input type="number" name="progress" class="form-control" value="{{ task.progress }}" min="0" max="100" required>
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary">Update</button>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} flash-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-10">
+                    <h2 class="text-center mb-4">Staff Task Manager</h2>
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Deadline</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Progress %</th>
+                                <th>Assignee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>{{ task.deadline }}</td>
+                                <td>{{ task.priority }}</td>
+                                <td>{{ task.status }}</td>
+                                <td>
+                                    <form action="{{ url_for('update_task_progress', task_id=task.id) }}" method="POST">
+                                        <div class="input-group">
+                                            <input type="number" name="progress" class="form-control" value="{{ task.progress }}" min="0" max="100" required>
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </td>
-                            <td>{{ task.assignee.username }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                    </form>
+                                </td>
+                                <td>{{ task.assignee.username }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+        <script>
+    let flashMessages = document.querySelectorAll(".flash-message");
+    let delay = 5000;  // 5 seconds
+
+    flashMessages.forEach((message, index) => {
+        setTimeout(() => {
+            message.style.display = "none";
+        }, delay * (index + 1));
+    });
+</script>
+    </body>
 </html>
